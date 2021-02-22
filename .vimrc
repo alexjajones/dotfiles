@@ -28,7 +28,7 @@ set wildmode=list:longest,full
 set wildignore+=*.pdf,*.o,*.obj,*.jpg,*.png,*.pyc,*.py.log
 set path=**
 
-set cmdheight=2
+" set cmdheight=2
 set updatetime=50
 set shortmess+=c
 set ignorecase
@@ -46,6 +46,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " :CocInstall coc-pyright
 " pip install rope
 
+Plug 'vim-test/vim-test'
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -59,6 +61,34 @@ colorscheme gruvbox
 let mapleader = " "
 
 nnoremap <leader>p :cd ~/projects/people-ops/
+nnoremap <C-S> :wa<cr>
+
+" Note taking
+let $NOTES_DIR="~/notes_v2"
+nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>:cd $NOTES_DIR<CR>
+
+augroup Markdown
+  autocmd!
+  autocmd FileType markdown set wrap
+augroup END
+
+if has('macunix')
+  function! OpenURLUnderCursor()
+    let s:uri = matchstr(getline('.'), '[a-z]*:\/\/[^ >,;()]*')
+    let s:uri = shellescape(s:uri, 1)
+    if s:uri != ''
+      silent exec "!open '".s:uri."'"
+      :redraw!
+    endif
+  endfunction
+  nnoremap gx :call OpenURLUnderCursor()<CR>
+endif
+
+" Test running
+nnoremap ` :update<bar>:TestFile<cr>
+nnoremap <leader>` :TestSuite<cr>
+
+" Copying to clipboard
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
@@ -72,7 +102,7 @@ nnoremap <leader>t :bot term ++close<CR>
 " Git shortcuts
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gp :Gpull<CR>
+nnoremap <leader>gp :Gpush<CR>
 nnoremap <leader>gb :Git checkout 
 nnoremap <leader>gn :Git checkout master<bar>:Gpull<bar>:Git checkout -b 
 
