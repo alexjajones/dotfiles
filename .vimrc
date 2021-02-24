@@ -4,8 +4,6 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
-
-set guicursor=
 set relativenumber
 set nohlsearch
 set hidden
@@ -17,21 +15,23 @@ set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
-set scrolloff=8
 set noshowmode
+set scrolloff=8
 set completeopt=menuone,noinsert,noselect
 set signcolumn=yes
 set backspace=indent,eol,start
-
 set wildmenu
 set wildmode=list:longest,full
 set wildignore+=*.pdf,*.o,*.obj,*.jpg,*.png,*.pyc,*.py.log
 set path=**
-
-" set cmdheight=2
 set updatetime=50
 set shortmess+=c
 set ignorecase
+set cursorline
+
+" Cursor
+let &t_SI.="\e[1 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
 
 call plug#begin('~/.vim/plugged')
 
@@ -46,6 +46,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " :CocInstall coc-pyright
 " pip install rope
 
+Plug 'puremourning/vimspector'
+" :VimspectorInstall debugpy
+"
 Plug 'vim-test/vim-test'
 
 " Git
@@ -113,6 +116,22 @@ nnoremap <leader>/ :Rg<CR>
 
 " Python
 let $PYTHONPATH=$PWD
+
+" Debugger
+let g:vimspector_enable_mappings = 'HUMAN'
+
+fun! GotoWindow(id)
+    call win_gotoid(a:id)
+endfun
+
+nnoremap <leader>dd :call vimspector#Launch()<CR>
+nnoremap <leader>dc :call GotoWindow(g:vimspector_session_windows.code)<CR>
+nnoremap <leader>dt :call GotoWindow(g:vimspector_session_windows.tagpage)<CR>
+nnoremap <leader>dv :call GotoWindow(g:vimspector_session_windows.variables)<CR>
+nnoremap <leader>dw :call GotoWindow(g:vimspector_session_windows.watches)<CR>
+nnoremap <leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<CR>
+nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
+nnoremap <leader>de :call vimspector#Reset()<CR>
 
 
 " 
