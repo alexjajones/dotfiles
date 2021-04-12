@@ -28,22 +28,23 @@ set updatetime=50
 set shortmess+=c
 set ignorecase
 set cursorline
-
-" Cursor
-let &t_SI.="\e[1 q" "SI = INSERT mode
-let &t_SR.="\e[4 q" "SR = REPLACE mode
+set rtp+=/usr/local/opt/fzf
+set timeoutlen=1000 ttimeoutlen=0
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'gruvbox-community/gruvbox'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " brew install fzf
+" brew install ripgrep
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Coc installs to run ->
 " :CocInstall coc-pyright
+" :CocInstall coc-go
 " pip install rope
 
 Plug 'puremourning/vimspector'
@@ -53,22 +54,30 @@ Plug 'vim-test/vim-test'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
 set background=dark
 set t_Co=256
+
+" Best color scheme, no doubt, unbeatable 
 colorscheme gruvbox
 
 let mapleader = " "
 
-nnoremap <leader>p :cd ~/projects/people-ops/
-nnoremap <C-S> :wa<cr>
+" Project switcher
+nnoremap <leader>p :call fzf#run({'source': 'find ~/jet/* -type d -maxdepth 0', 'sink': 'cd', 'down': '20%'})<CR><bar>:e.<CR>
+
+" Fat finger helpers
+command Q :quit
+command W :w
+map q: <Nop>
 
 " Note taking
-let $NOTES_DIR="~/notes_v2"
-nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>:cd $NOTES_DIR<CR>
+let $NOTES_DIR="~/jet/notes"
+nnoremap <leader>n :Files $NOTES_DIR<CR>
 
 augroup Markdown
   autocmd!
@@ -88,26 +97,33 @@ if has('macunix')
 endif
 
 " Test running
-nnoremap ` :update<bar>:TestFile<cr>
-nnoremap <leader>` :TestSuite<cr>
+nnoremap ` :call RunTests()<CR>
+
+function! RunTests()
+    :wa
+    if filereadable("test.sh")
+       :!clear && sh test.sh
+    else
+       :TestFile
+    endif
+endfunction
+
+nnoremap <leader>` :wa<bar>:TestSuite<cr>
 
 " Copying to clipboard
-nnoremap <leader>y "+y
-vnoremap <leader>y "+y
-nnoremap <leader>Y gg"+yG
+set clipboard=unnamed
 
 " Terminal
-set termwinkey=<C-q>
+tnoremap <NUL> <C-\><C-n>
 set termwinsize=20x0
 
 nnoremap <leader>t :bot term ++close<CR>
 
-" Git shortcuts
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gp :Gpush<CR>
-nnoremap <leader>gb :Git checkout 
-nnoremap <leader>gn :Git checkout master<bar>:Gpull<bar>:Git checkout -b 
+" Git
+let g:github_enterprise_urls = ['https://github.je-labs.com/']
+
+nnoremap <NUL> :Git<CR>
+nnoremap <leader>g :G checkout master<bar>:G pull<bar>:G checkout -b 
 
 " fzf remaps
 nnoremap <leader>o :Files<CR>
@@ -115,7 +131,7 @@ nnoremap <leader>e :Buffers<CR>
 nnoremap <leader>/ :Rg<CR>
 
 " Python
-let $PYTHONPATH=$PWD
+let $PYTHONPATH="/Users/alex.jones1/jet/cddag-client/src"
 
 " Debugger
 let g:vimspector_enable_mappings = 'HUMAN'
