@@ -31,6 +31,12 @@ set cursorline
 set rtp+=/usr/local/opt/fzf
 set timeoutlen=1000 ttimeoutlen=0
 
+set exrc
+set secure
+
+" DVC
+autocmd! BufNewFile,BufRead Dvcfile,*.dvc,dvc.lock setfiletype yaml
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'gruvbox-community/gruvbox'
@@ -68,16 +74,14 @@ colorscheme gruvbox
 let mapleader = " "
 
 " Project switcher
-nnoremap <leader>p :call fzf#run({'source': 'find ~/jet/* -type d -maxdepth 0', 'sink': 'cd', 'down': '20%'})<CR><bar>:e.<CR>
+" nnoremap <leader>p :call fzf#run({'source': 'find ~/jet/* -type d -maxdepth 0', 'sink': 'cd', 'down': '20%'})<CR><bar>:e.<CR>
 
 " Fat finger helpers
 command Q :quit
 command W :w
+command Wq :wq
+command WQ :wq
 map q: <Nop>
-
-" Note taking
-let $NOTES_DIR="~/jet/notes"
-nnoremap <leader>n :Files $NOTES_DIR<CR>
 
 augroup Markdown
   autocmd!
@@ -97,6 +101,8 @@ if has('macunix')
 endif
 
 " Test running
+" let test#strategy = "vimterminal"
+
 nnoremap ` :call RunTests()<CR>
 
 function! RunTests()
@@ -123,15 +129,15 @@ nnoremap <leader>t :bot term ++close<CR>
 let g:github_enterprise_urls = ['https://github.je-labs.com/']
 
 nnoremap <NUL> :Git<CR>
-nnoremap <leader>g :G checkout master<bar>:G pull<bar>:G checkout -b 
+nnoremap <leader>gn :G checkout master<bar>:G pull<bar>:G checkout -b 
+nnoremap <leader>gm :G checkout master<bar>:G pull<CR>
 
 " fzf remaps
 nnoremap <leader>o :Files<CR>
 nnoremap <leader>e :Buffers<CR>
 nnoremap <leader>/ :Rg<CR>
 
-" Python
-let $PYTHONPATH="/Users/alex.jones1/jet/cddag-client/src"
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob=\!.git'
 
 " Debugger
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -149,6 +155,7 @@ nnoremap <leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<C
 nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
 nnoremap <leader>de :call vimspector#Reset()<CR>
 
+nmap <leader>l  <Plug>(coc-format)
 
 " 
 " " --- Coc Config ---
