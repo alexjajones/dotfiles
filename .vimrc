@@ -34,9 +34,6 @@ set timeoutlen=1000 ttimeoutlen=0
 set exrc
 set secure
 
-" DVC
-autocmd! BufNewFile,BufRead Dvcfile,*.dvc,dvc.lock setfiletype yaml
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'gruvbox-community/gruvbox'
@@ -50,18 +47,16 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Coc installs to run ->
 " :CocInstall coc-pyright
-" :CocInstall coc-go
-" pip install rope
 
-Plug 'puremourning/vimspector'
-" :VimspectorInstall debugpy
-"
 Plug 'vim-test/vim-test'
 
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
+
+" Notes
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -73,15 +68,16 @@ colorscheme gruvbox
 
 let mapleader = " "
 
-" Project switcher
-" nnoremap <leader>p :call fzf#run({'source': 'find ~/jet/* -type d -maxdepth 0', 'sink': 'cd', 'down': '20%'})<CR><bar>:e.<CR>
-
 " Fat finger helpers
 command Q :quit
 command W :w
 command Wq :wq
 command WQ :wq
 map q: <Nop>
+
+nnoremap <C-e> :e.<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
 
 augroup Markdown
   autocmd!
@@ -101,7 +97,7 @@ if has('macunix')
 endif
 
 " Test running
-" let test#strategy = "vimterminal"
+let test#strategy = "vimterminal"
 
 nnoremap ` :call RunTests()<CR>
 
@@ -137,23 +133,8 @@ nnoremap <leader>o :Files<CR>
 nnoremap <leader>e :Buffers<CR>
 nnoremap <leader>/ :Rg<CR>
 
+
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob=\!.git'
-
-" Debugger
-let g:vimspector_enable_mappings = 'HUMAN'
-
-fun! GotoWindow(id)
-    call win_gotoid(a:id)
-endfun
-
-nnoremap <leader>dd :call vimspector#Launch()<CR>
-nnoremap <leader>dc :call GotoWindow(g:vimspector_session_windows.code)<CR>
-nnoremap <leader>dt :call GotoWindow(g:vimspector_session_windows.tagpage)<CR>
-nnoremap <leader>dv :call GotoWindow(g:vimspector_session_windows.variables)<CR>
-nnoremap <leader>dw :call GotoWindow(g:vimspector_session_windows.watches)<CR>
-nnoremap <leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<CR>
-nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR>
-nnoremap <leader>de :call vimspector#Reset()<CR>
 
 nmap <leader>l  <Plug>(coc-format)
 
@@ -228,4 +209,4 @@ augroup mygroup
 augroup end
 
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+" nmap <leader>qf  <Plug>(coc-fix-current)
