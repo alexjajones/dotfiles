@@ -1,0 +1,9 @@
+name: default
+root: <%= @settings["workspace"] %>
+attach: True
+
+startup_pane: 1
+
+windows:
+  - editor: vim .
+  - term: date
