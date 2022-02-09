@@ -30,30 +30,39 @@ set ignorecase
 set cursorline
 set rtp+=/usr/local/opt/fzf
 set timeoutlen=1000 ttimeoutlen=0
+set spell spelllang=en
 
 set exrc
 set secure
 
 call plug#begin('~/.vim/plugged')
 
+" UI
 Plug 'gruvbox-community/gruvbox'
-Plug 'ekalinin/Dockerfile.vim'
 Plug 'vim-airline/vim-airline'
+Plug 'airblade/vim-gitgutter'
+
+" File types
+Plug 'lepture/vim-jinja'
+Plug 'ekalinin/Dockerfile.vim'
+
+" Search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" brew install fzf
-" brew install ripgrep
+" brew install fzf && brew install ripgrep
 
+" Code complete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Coc installs to run ->
-" :CocInstall coc-pyright
+":CocInstall coc-pyright
 
+" Testing
 Plug 'vim-test/vim-test'
+Plug 'tpope/vim-dispatch'
+Plug 'tartansandal/vim-compiler-pytest'
 
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'airblade/vim-gitgutter'
 
 " Notes
 Plug 'vimwiki/vimwiki'
@@ -75,56 +84,45 @@ command Wq :wq
 command WQ :wq
 map q: <Nop>
 
-nnoremap <C-e> :e.<CR>
+nnoremap <C-e> :E<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 
-augroup Markdown
+let g:vimwiki_map_prefix = '<leader>v'
+
+augroup WrapFileTypes
   autocmd!
   autocmd FileType markdown set wrap
+  autocmd FileType vimwiki set wrap
+  autocmd FileType qf setlocal wrap
 augroup END
 
-if has('macunix')
-  function! OpenURLUnderCursor()
-    let s:uri = matchstr(getline('.'), '[a-z]*:\/\/[^ >,;()]*')
-    let s:uri = shellescape(s:uri, 1)
-    if s:uri != ''
-      silent exec "!open '".s:uri."'"
-      :redraw!
-    endif
-  endfunction
-  nnoremap gx :call OpenURLUnderCursor()<CR>
-endif
+au BufNewFile,BufRead Jenkinsfile setf groovy
+au BufNewFile,BufRead *.j2 set ft=jinja
 
 " Test running
-let test#strategy = "vimterminal"
+"let test#strategy = "vimterminal"
+let test#strategy = "dispatch"
+let test#python#pytest#options = "--disable-pytest-warnings --tb=short -q"
 
-nnoremap ` :call RunTests()<CR>
-
-function! RunTests()
-    :wa
-    if filereadable("test.sh")
-       :!clear && sh test.sh
-    else
-       :TestFile
-    endif
-endfunction
-
+nnoremap <leader>; :w<bar>:TestNearest<cr>
+nnoremap <leader>' :w<bar>:TestFile<cr>
 nnoremap <leader>` :wa<bar>:TestSuite<cr>
 
 " Copying to clipboard
 set clipboard=unnamed
 
 " Terminal
-tnoremap <NUL> <C-\><C-n>
 set termwinsize=20x0
 
 nnoremap <leader>t :bot term ++close<CR>
 
 " Git
-let g:github_enterprise_urls = ['https://github.je-labs.com/']
+let g:github_enterprise_urls = ['https://github.je-labs.com']
 
-nnoremap <NUL> :Git<CR>
+nnoremap <leader>gg :Git<CR>
+nnoremap <leader>gb :GBrowse<CR>
+nnoremap <leader>gp :G push<CR>
 nnoremap <leader>gn :G checkout master<bar>:G pull<bar>:G checkout -b 
 nnoremap <leader>gm :G checkout master<bar>:G pull<CR>
 
@@ -132,7 +130,6 @@ nnoremap <leader>gm :G checkout master<bar>:G pull<CR>
 nnoremap <leader>o :Files<CR>
 nnoremap <leader>e :Buffers<CR>
 nnoremap <leader>/ :Rg<CR>
-
 
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob=\!.git'
 
