@@ -31,49 +31,13 @@ set cursorline
 set rtp+=/usr/local/opt/fzf
 set timeoutlen=1000 ttimeoutlen=0
 set spell spelllang=en
-
 set exrc
 set secure
-
-call plug#begin('~/.vim/plugged')
-
-" UI
-Plug 'gruvbox-community/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'airblade/vim-gitgutter'
-
-" File types
-Plug 'lepture/vim-jinja'
-Plug 'ekalinin/Dockerfile.vim'
-
-" Search
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-" brew install fzf && brew install ripgrep
-
-" Code complete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-":CocInstall coc-pyright
-
-" Testing
-Plug 'vim-test/vim-test'
-Plug 'tpope/vim-dispatch'
-Plug 'tartansandal/vim-compiler-pytest'
-
-" Git
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
-
-" Notes
-Plug 'vimwiki/vimwiki'
-
-call plug#end()
 
 set background=dark
 set t_Co=256
 
-" Best color scheme, no doubt, unbeatable 
-colorscheme gruvbox
+let g:coc_global_extensions = ['coc-pyright']
 
 let mapleader = " "
 
@@ -84,11 +48,53 @@ command Wq :wq
 command WQ :wq
 map q: <Nop>
 
+command! -nargs=1 NewZettel :execute ":e" "~/notes/" . strftime("%Y%m%d%H%M") . "-<args>.md"
+nnoremap <leader>nn :NewZettel 
+
+" Helpers
 nnoremap <C-e> :E<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 
-let g:vimwiki_map_prefix = '<leader>v'
+" Font 
+" Install https://www.jetbrains.com/lp/mono/
+" Char spacing 1.046
+" Line space 1.1
+
+call plug#begin('~/.vim/plugged')
+
+" UI
+Plug 'gruvbox-community/gruvbox' " Best colour scheme
+Plug 'vim-airline/vim-airline' " Status bar
+
+" File types
+Plug 'lepture/vim-jinja'
+Plug 'ekalinin/Dockerfile.vim'
+
+" Custom text objects
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-line'
+
+Plug 'tpope/vim-surround'
+
+" Search
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" brew install fzf && brew install ripgrep
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " code complete :CocInstall coc-pyright
+Plug 'vim-test/vim-test' " Testing
+" Git
+Plug 'tpope/vim-fugitive' " Git wrapper
+Plug 'tpope/vim-rhubarb' " Git browse
+Plug 'airblade/vim-gitgutter' " Git gutter
+
+Plug 'tpope/vim-commentary'
+
+call plug#end()
+
+colorscheme gruvbox " Best color scheme, no doubt, unbeatable 
 
 augroup WrapFileTypes
   autocmd!
@@ -101,9 +107,8 @@ au BufNewFile,BufRead Jenkinsfile setf groovy
 au BufNewFile,BufRead *.j2 set ft=jinja
 
 " Test running
-"let test#strategy = "vimterminal"
-let test#strategy = "dispatch"
-let test#python#pytest#options = "--disable-pytest-warnings --tb=short -q"
+let test#strategy = "vimterminal"
+let test#python#pytest#options = "--disable-pytest-warnings -q"
 
 nnoremap <leader>; :w<bar>:TestNearest<cr>
 nnoremap <leader>' :w<bar>:TestFile<cr>
@@ -163,11 +168,6 @@ endif
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -193,10 +193,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -204,6 +200,3 @@ augroup mygroup
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
-
-" Apply AutoFix to problem on the current line.
-" nmap <leader>qf  <Plug>(coc-fix-current)
