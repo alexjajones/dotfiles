@@ -25,7 +25,6 @@ Plug 'tpope/vim-rhubarb' " Git browse
 Plug 'airblade/vim-gitgutter' " Git gutter
 Plug 'tpope/vim-commentary' " Commenting
 Plug 'lervag/vimtex' " LeTex integration
-Plug 'takac/vim-hardtime'
 call plug#end()
 
 " Desktop background - https://imgur.com/a/oD7R8W2
@@ -38,7 +37,6 @@ nnoremap <C-e> :E<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 
-let g:hardtime_default_on = 1
 autocmd FileType markdown set wrap
 autocmd BufNewFile,BufRead Jenkinsfile setf groovy
 
