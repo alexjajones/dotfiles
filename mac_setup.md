@@ -9,6 +9,9 @@
  - Remove terminal bell
  - Reduce terminal header
 
+ - mkdir ~/code
+ - mkdir ~/notes
+
  - install brew
  - brew install zsh
  - chsh -s /usr/local/bin/zsh
