@@ -9,6 +9,7 @@
  - Click touch pad
  - Remove terminal bell
  - Reduce terminal header
+ - Remove scroll bars with mouse on
 
  - mkdir ~/code
  - mkdir ~/notes
