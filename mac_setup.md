@@ -27,6 +27,10 @@
  - brew install fzf
  - brew install ripgrep
  - brew install pyenv (with extra bit)
+ - brew install openssl readline sqlite3 xz zlib
+ - brew install gcc
+ - brew install docker docker-compose
+ - brew install colima (docker)
   
  - install nvm - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
  - nvm install stable
@@ -35,6 +39,3 @@
  - ln -s dot-files/.tmux.conf ~/
  - ln -s dot-files/coc.vim ~/
  - ln -s dot-files/.vimrc ~/
-
-
- - Install docker
