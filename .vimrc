@@ -12,6 +12,13 @@ set undofile
 set exrc
 set noerrorbells
 set clipboard=unnamed
+set updatetime=100
+
+" Persistent undo
+set undofile
+set undodir=$HOME/.vim/undo
+set undolevels=1000
+set undoreload=10000
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible' " Good default for vim
@@ -23,11 +30,9 @@ Plug 'vim-test/vim-test' " Testing
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'tpope/vim-rhubarb' " Git browse
 Plug 'airblade/vim-gitgutter' " Git gutter
-Plug 'tpope/vim-commentary' " Commenting
-Plug 'lervag/vimtex' " LeTex integration
+Plug 'hashivim/vim-terraform' " Terraform syntax
 call plug#end()
 
-" Desktop background - https://imgur.com/a/oD7R8W2
 " Typeface https://www.jetbrains.com/lp/mono/ char spacing 1.046 line space 1.1
 colorscheme gruvbox " Best color scheme, no doubt, unbeatable 
 let mapleader = " "
@@ -60,7 +65,7 @@ nnoremap <leader>' :w<bar>:TestFile<cr>
 nnoremap <leader>` :wa<bar>:TestSuite<cr>
 
 " Git
-let g:github_enterprise_urls = ['https://github.je-labs.com']
+let g:github_enterprise_urls = ['https://gitlab.com']
 
 nnoremap <leader>gg :Git<CR>
 nnoremap <leader>gb :GBrowse<CR>
@@ -69,9 +74,9 @@ nnoremap <leader>gp :G push<CR>
 " fzf remaps
 nnoremap <leader>o :Files<CR>
 nnoremap <leader>e :Buffers<CR>
-nnoremap <leader>/ :Rg<CR>
+nnoremap <leader>f :Rg<CR>
 
 set rtp+=/usr/local/opt/fzf
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob=\!.git'
 
-source ~/dot-files/coc.vim
+source ~/coc.vim
