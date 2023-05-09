@@ -5,5 +5,11 @@ attach: True
 startup_pane: 1
 
 windows:
-  - editor: vim .
-  - term: date
+  - editor: >
+      if test -f "pyproject.toml"; 
+      then
+        poetry run nvim .
+      else
+        nvim .
+      fi
+  - term: git pull
