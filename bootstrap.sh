@@ -1,9 +1,6 @@
-NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/codespace/.profile
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-brew install tmux tmuxinator neovim
+ln -s ~/dotfiles/.nvim ~/.config/nvim
+ln -s ~/dotfiles/.tmux.conf ~/.config/.tmux.conf
+ln -s ~/dotfiles/.project_switcher.sh ~/.project_switcher.sh
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim

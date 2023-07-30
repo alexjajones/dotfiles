@@ -4,5 +4,5 @@ selected_name=$(echo $selected | tr "." -)
 if [ "$selected_name" = "" ]; then
     echo "Strings are equal."
 else
-	tmuxinator start $selected_name -n $selected_name -p ~/default.yml workspace="~/code/${selected}"
+	tmuxinator start $selected_name -n $selected_name -p ~/dotfiles/default.yml workspace="~/code/${selected}"
 fi
