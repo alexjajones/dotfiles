@@ -30,3 +30,22 @@ cmp.setup.filetype('markdown', {
 vim.diagnostic.config({
     virtual_text = false
 })
+
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {},
+  handlers = {
+    lsp.default_setup,
+  },
+})
+
+
+lsp.use('pyright', {
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "strict",
+      }
+    }
+  }
+})

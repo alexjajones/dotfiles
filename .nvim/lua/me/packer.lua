@@ -14,24 +14,16 @@ return require('packer').startup(function(use)
     use('tpope/vim-commentary')
     use('jose-elias-alvarez/null-ls.nvim') -- Allows use of code actions
     use {
-        'VonHeikemen/lsp-zero.nvim',
-        requires = {
-            -- LSP Support
-            { 'neovim/nvim-lspconfig' },
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-
-            -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },
-            { 'hrsh7th/cmp-buffer' },
-            { 'hrsh7th/cmp-path' },
-            { 'saadparwaiz1/cmp_luasnip' },
-            { 'hrsh7th/cmp-nvim-lsp' },
-            { 'hrsh7th/cmp-nvim-lua' },
-        }
+      'VonHeikemen/lsp-zero.nvim',
+      branch = 'v3.x',
+      requires = {
+        {'williamboman/mason.nvim'},
+        {'williamboman/mason-lspconfig.nvim'},
+        {'neovim/nvim-lspconfig'},
+        {'hrsh7th/nvim-cmp'},
+        {'hrsh7th/cmp-nvim-lsp'},
+      }
     }
-    -- Other
-    -- use('dhruvasagar/vim-table-mode')
     use { "akinsho/toggleterm.nvim", tag = '*', config = function()
         require("toggleterm").setup()
     end }
