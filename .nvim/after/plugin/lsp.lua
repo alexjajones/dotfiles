@@ -16,8 +16,8 @@ cmp.setup({
         ['<S-TAB>'] = cmp.mapping.select_prev_item({ behavior = 'select' }),
     },
     sources = {
-        { name = 'buffer' },
         { name = 'nvim_lsp' },
+        { name = 'buffer' },
     }
 })
 
