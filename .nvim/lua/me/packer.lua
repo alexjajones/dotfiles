@@ -3,6 +3,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
+    -- Core
     use { 'nvim-telescope/telescope.nvim', tag = '0.1.0', requires = { { 'nvim-lua/plenary.nvim' } } }
     use('ellisonleao/gruvbox.nvim')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
@@ -10,12 +11,8 @@ return require('packer').startup(function(use)
     use('tpope/vim-rhubarb')
     use('airblade/vim-gitgutter')
     use('vim-test/vim-test')
-    use('jose-elias-alvarez/null-ls.nvim') -- Allows use of code actions
     use('tpope/vim-commentary')
-    use { "akinsho/toggleterm.nvim", tag = '*', config = function()
-        require("toggleterm").setup()
-    end }
-
+    use('jose-elias-alvarez/null-ls.nvim') -- Allows use of code actions
     use {
         'VonHeikemen/lsp-zero.nvim',
         requires = {
@@ -33,6 +30,11 @@ return require('packer').startup(function(use)
             { 'hrsh7th/cmp-nvim-lua' },
         }
     }
+    -- Other
+    -- use('dhruvasagar/vim-table-mode')
+    use { "akinsho/toggleterm.nvim", tag = '*', config = function()
+        require("toggleterm").setup()
+    end }
 end)
 
 -- Snippets
