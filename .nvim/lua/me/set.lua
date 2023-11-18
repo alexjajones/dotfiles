@@ -50,6 +50,7 @@ local cmd = vim.cmd
 cmd [[
     augroup Markdown
       autocmd!
-      autocmd FileType markdown set wrap
+      autocmd FileType markdown setlocal wrap
+      autocmd FileType markdown setlocal textwidth=100
     augroup END
 ]]
