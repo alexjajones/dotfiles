@@ -25,7 +25,7 @@ telescope.setup({
         buffers = {
             ignore_current_buffer = true,
             sort_mru = true,
-            only_cwd = false
+            only_cwd = true
         },
     },
 })
@@ -33,5 +33,5 @@ telescope.setup({
 vim.keymap.set('n', '<leader>o', builtin.find_files, {})
 vim.keymap.set('n', '<leader>e', builtin.buffers, {})
 vim.keymap.set('n', '<leader>f', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>go', builtin.git_branches, {})
 vim.keymap.set('n', '<leader>s', builtin.spell_suggest, {})
+vim.keymap.set('n', '<leader>go', builtin.git_branches, {})

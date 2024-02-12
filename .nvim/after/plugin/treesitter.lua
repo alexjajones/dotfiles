@@ -1,15 +1,10 @@
--- require'nvim-treesitter.install'.compilers = { "gcc-11" }
+require 'nvim-treesitter.configs'.setup {
+  ensure_installed = {},
+  sync_install = false,
+  auto_install = true,
 
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = {},
-  
-    sync_install = false,
-  
-    auto_install = true,
-  
-    highlight = {
+  highlight = {
       enable = true,
       additional_vim_regex_highlighting = false,
-    },
   }
-  
+}

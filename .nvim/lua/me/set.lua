@@ -43,14 +43,4 @@ vim.cmd.colorscheme("gruvbox")
 vim.g.mapleader = " "
 
 vim.o.exrc = true
-
-
-local cmd = vim.cmd
-
-cmd [[
-    augroup Markdown
-      autocmd!
-      autocmd FileType markdown setlocal wrap
-      autocmd FileType markdown setlocal textwidth=100
-    augroup END
-]]
+vim.opt.cursorline = true
