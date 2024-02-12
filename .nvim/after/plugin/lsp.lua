@@ -7,9 +7,13 @@ end)
 lsp.setup()
 
 local cmp = require('cmp')
-local cmp_action = require('lsp-zero').cmp_action()
 
 cmp.setup({
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+        end,
+    },
     mapping = {
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
         ['<TAB>'] = cmp.mapping.select_next_item({ behavior = 'select' }),
@@ -29,23 +33,4 @@ cmp.setup.filetype('markdown', {
 
 vim.diagnostic.config({
     virtual_text = false
-})
-
-require('mason').setup({})
-require('mason-lspconfig').setup({
-  ensure_installed = {},
-  handlers = {
-    lsp.default_setup,
-  },
-})
-
-
-lsp.use('pyright', {
-  settings = {
-    python = {
-      analysis = {
-        typeCheckingMode = "strict",
-      }
-    }
-  }
 })
